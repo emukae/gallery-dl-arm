@@ -20,9 +20,6 @@ jobs:
         #GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GH_TOKEN: ${{ github.token }}
       run: |
-        git clone https://github.com/mikf/gallery-dl
-        cd gallery-dl/scripts/
-
         docker buildx create --name container-builder --driver docker-container --use --bootstrap
         docker run --privileged --rm tonistiigi/binfmt --install all
         

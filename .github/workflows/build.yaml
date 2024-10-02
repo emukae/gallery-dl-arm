@@ -27,4 +27,4 @@ jobs:
         docker create --name gallery-dl-container gallery-dl
         docker cp gallery-dl-container:/gallery-dl/dist/gallery-dl .
 
-        gh release create --latest gallery-dl --notes "gallery-dl arm" gallery-dl
+        gh release create latest --latest --notes "" gallery-dl

@@ -1,4 +1,4 @@
-FROM python:slim-buster as builder
+FROM python:slim-buster
 
 RUN apt-get update && apt-get install -y --no-install-recommends gcc musl-dev git && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir pyinstaller requests \

@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Try building
+      env: 
+        #GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        git clone https://github.com/mikf/gallery-dl
+        cd gallery-dl/scripts/
+
+        docker buildx create --name container-builder --driver docker-container --use --bootstrap
+        docker run --privileged --rm tonistiigi/binfmt --install all
+        
+        docker build . --platform linux/arm64 -t gallery-dl
+        docker create --name gallery-dl-container gallery-dl
+        docker cp gallery-dl-container:/gallery-dl/dist/gallery-dl.bin .
+
+        gh release create --latest gallery-dl --notes "gallery-dl arm" gallery-dl.bin
